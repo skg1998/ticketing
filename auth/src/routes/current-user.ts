@@ -3,6 +3,6 @@ import currentUserCtrl from '../controllers/current-user';
 
 const router = express.Router();
 
-router.get('/currentuser', currentUserCtrl.currentUser);
+router.get('api/users/currentuser', currentUserCtrl.currentUser);
 
 export { router as currentUserRouter };

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { User } from '../modals/user';
 import { validationResult } from 'express-validator';
 import { RequestValidationError } from '../errors/request-validation-error';
+import { BadRequestError } from '../errors/bad-request-error';
 
 const signup = async (req: Request, res: Response) => {
   const errors = validationResult(req);
@@ -14,8 +15,7 @@ const signup = async (req: Request, res: Response) => {
   const existingUser = User.findOne({ email });
 
   if (existingUser) {
-    console.log('Email is already in use');
-    res.send({});
+    throw new BadRequestError('Email is already in use');
   }
 
   const user = new User({

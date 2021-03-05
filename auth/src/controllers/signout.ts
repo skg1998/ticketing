@@ -1,7 +1,6 @@
-import express from 'express';
-
 const signout = (req: any, res: any) => {
-  res.send('All users');
+  req.session = null;
+  res.send({});
 };
 
 export default { signout };

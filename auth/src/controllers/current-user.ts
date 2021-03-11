@@ -1,16 +1,7 @@
-import jwt from 'jsonwebtoken';
+import express from 'express';
 
 const currentUser = (req: any, res: any) => {
-  if (!req.session?.jwt) {
-    res.send({ currentUser: null });
-  }
-
-  try {
-    const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY!);
-    res.send({ currentUser: payload });
-  } catch (err) {
-    res.send({ currentUser: null });
-  }
+  res.send({ currentUser: req.currentUser || null });
 };
 
 export default { currentUser };

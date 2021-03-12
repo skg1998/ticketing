@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { User } from '../modals/user';
-import { BadRequestError } from '../errors/bad-request-error';
+import { BadRequestError } from '@ticketing-pro/common';
 import jwt from 'jsonwebtoken';
 
 const signup = async (req: Request, res: Response) => {

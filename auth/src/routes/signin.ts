@@ -1,7 +1,7 @@
 import express from 'express';
 import signinCtrl from '../controllers/signin';
 import { body } from 'express-validator';
-import { validateRequest } from '../middleware/validate-request';
+import { validateRequest } from '@ticketing-pro/common';
 const router = express.Router();
 
 router.post(

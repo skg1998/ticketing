@@ -11,9 +11,9 @@ const signup = async (req: Request, res: Response) => {
     throw new BadRequestError('Email is already in use');
   }
 
-  const user = new User({
-    email: email,
-    password: password,
+  const user = User.build({
+    email,
+    password,
   });
 
   //Generate JWT

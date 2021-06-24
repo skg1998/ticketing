@@ -16,14 +16,6 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    - image: sahilgupta04/tickets
-      context: tickets
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: 'src/**/*.ts'
-            dest: .
     - image: sahilgupta04/client
       context: client
       docker:
@@ -31,4 +23,12 @@ build:
       sync:
         manual:
           - src: '**/*.js'
+            dest: .
+    - image: sahilgupta04/tickets
+      context: tickets
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
             dest: .

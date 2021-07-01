@@ -8,6 +8,11 @@ import {
   currentUser,
 } from '@ticketing-pro/common';
 
+import { indexOrderRouter } from './routes/index';
+import { deleteOrderRouter } from './routes/delete';
+import { showOrderRouter } from './routes/show';
+import { newOrderRouter } from './routes/new';
+
 const app = express();
 app.set('trust proxy', true);
 app.use(json());
@@ -19,6 +24,11 @@ app.use(
 );
 
 app.use(currentUser);
+
+app.use(indexOrderRouter);
+app.use(deleteOrderRouter);
+app.use(showOrderRouter);
+app.use(newOrderRouter);
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();

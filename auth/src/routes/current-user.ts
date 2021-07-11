@@ -1,7 +1,6 @@
 import express from 'express';
 import currentUserCtrl from '../controllers/current-user';
-import { currentUser } from '@ticketing-pro/common';
-import { requireAuth } from '@ticketing-pro/common';
+import { currentUser, requireAuth } from '@ticketing-pro/common';
 
 const router = express.Router();
 

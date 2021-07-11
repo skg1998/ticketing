@@ -1,17 +1,17 @@
 import nats, { Stan } from 'node-nats-streaming';
 
 class NatsWrapper {
-  private _Clients?: Stan;
+  private _client?: Stan;
 
   get client() {
-    if (!this._Clients) {
+    if (!this._client) {
       throw new Error('Cannot access NATS clients before connectings');
     }
-    return this._Clients;
+    return this._client;
   }
 
   connect(clusterId: string, clientId: string, url: string) {
-    this._Clients = nats.connect(clusterId, clientId, { url });
+    this._client = nats.connect(clusterId, clientId, { url });
 
     return new Promise((reject, resolve) => {
       this.client.on('connect', () => {

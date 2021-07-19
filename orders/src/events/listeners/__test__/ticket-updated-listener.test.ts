@@ -59,3 +59,15 @@ it('acks the function', async () => {
   // write assertion to make sure that acks the function
   expect(msg.ack).toHaveBeenCalled();
 });
+
+it('does not call ack if the event has skipped version number', async () => {
+  const { listener, data, msg } = await setup();
+
+  data.version = 10;
+
+  // call the onMessage function with the data object + message object
+  await listener.onMessage(data, msg);
+
+  // write assertion to make sure that acks the function
+  expect(msg.ack).not.toHaveBeenCalled();
+});

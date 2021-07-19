@@ -12,6 +12,7 @@ it('marks an orders as cancelled', async () => {
     title: 'concert',
     price: 20,
   });
+
   await ticket.save();
 
   const user = global.signin();

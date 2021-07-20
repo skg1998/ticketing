@@ -1,33 +1,30 @@
-import { OrderCreatedEvent, OrderStatus } from '@ticketing-pro/common';
+import { OrderCancelledEvent } from '@ticketing-pro/common';
 import mongoose from 'mongoose';
-import { OrderCreatedListener } from '../order-created-listener';
+import { OrderCancelledListener } from '../order-cancelled-listener';
 import { natsWrapper } from '../../../nats-wrapper';
 import { Ticket } from '../../../models/ticket';
 import { Message } from 'node-nats-streaming';
 
 const setup = async () => {
   // create a instance of listener
-  const listener = new OrderCreatedListener(natsWrapper.client);
+  const listener = new OrderCancelledListener(natsWrapper.client);
 
   // create and save tickets
+  const orderId = mongoose.Types.ObjectId().toHexString();
   const ticket = Ticket.build({
     title: 'concert',
     price: 99,
     userId: 'asdf',
   });
-
+  ticket.set({ orderId });
   await ticket.save();
 
   // create the fake data event
-  const data: OrderCreatedEvent['data'] = {
+  const data: OrderCancelledEvent['data'] = {
     id: mongoose.Types.ObjectId().toHexString(),
     version: 0,
-    status: OrderStatus.Created,
-    userId: 'aljfjgdfh',
-    expiresAt: 'asjsfig',
     ticket: {
       id: ticket.id,
-      price: ticket.price,
     },
   };
 
@@ -46,11 +43,11 @@ it('sets the userId of the ticket', async () => {
 
   const updateTicket = await Ticket.findById(ticket.id);
 
-  expect(updateTicket!.orderId).toEqual(data.id);
+  expect(updateTicket!.orderId).not.toBeDefined();
 });
 
 it('ack the message', async () => {
-  const { listener, data, msg, ticket } = await setup();
+  const { listener, data, msg } = await setup();
 
   await listener.onMessage(data, msg);
 
@@ -63,10 +60,4 @@ it('publishes a ticket updated event', async () => {
   await listener.onMessage(data, msg);
 
   expect(natsWrapper.client.publish).toHaveBeenCalled();
-
-  const ticketUpdatedData = JSON.parse(
-    (natsWrapper.client.publish as jest.Mock).mock.calls[0][1]
-  );
-
-  expect(data.id).toEqual(ticketUpdatedData.orderId);
 });

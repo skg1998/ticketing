@@ -1,6 +1,10 @@
 import { Request, Response } from 'express';
 import { Ticket } from '../models/ticket';
-import { NotFoundError, NotAuthorizedError } from '@ticketing-pro/common';
+import {
+  NotFoundError,
+  NotAuthorizedError,
+  BadRequestError,
+} from '@ticketing-pro/common';
 import { TicketUpdatedPublisher } from '../events/publishers/ticket-updated-publisher';
 import { natsWrapper } from '../nats-wrapper';
 
@@ -8,6 +12,10 @@ const updateTicket = async (req: Request, res: Response) => {
   const ticket = await Ticket.findById(req.params.id);
   if (!ticket) {
     throw new NotFoundError();
+  }
+
+  if (ticket.orderId) {
+    throw new BadRequestError('Cannot edit a reserve ticket');
   }
 
   if (ticket.userId != req.currentUser?.id) {

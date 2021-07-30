@@ -8,6 +8,7 @@ const signin = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   const existingUser = await User.findOne({ email });
+  console.log(existingUser);
   if (!existingUser) {
     throw new BadRequestError('Invalid Credentials');
   }

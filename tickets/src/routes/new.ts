@@ -11,7 +11,6 @@ router.post(
   [
     body('title').not().isEmpty().withMessage('Title is required'),
     body('price')
-      .not()
       .isFloat({ gt: 0 })
       .withMessage('Price must be greater than zero'),
   ],

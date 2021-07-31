@@ -3,6 +3,7 @@ import { app } from './app';
 import { natsWrapper } from './nats-wrapper';
 import { OrderCreatedListener } from './events/listeners/order-created-listener';
 import { OrderCancelledListener } from './events/listeners/order-cancelled-listener';
+const port = 3000;
 
 const start = async () => {
   if (!process.env.JWT_KEY) {
@@ -48,13 +49,13 @@ const start = async () => {
       useUnifiedTopology: true,
       useCreateIndex: true,
     });
-    console.log('Connected to MongoDb');
+    console.log('mongodb is connected sucessful');
   } catch (err) {
-    console.error(err);
+    console.error(`Their is some err: ${err}`);
   }
 
-  app.listen(3000, () => {
-    console.log('Listening on port 3000!!!!!!!!');
+  app.listen(port, () => {
+    console.log(`Listing on port: ${port}`);
   });
 };
 

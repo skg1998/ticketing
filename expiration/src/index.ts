@@ -33,7 +33,7 @@ const start = async () => {
 
     new OrderCreatedListener(natsWrapper.client).listen();
   } catch (err) {
-    console.error(err);
+    console.error(`Their is some err: ${err}`);
   }
 };
 

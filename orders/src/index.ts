@@ -4,6 +4,7 @@ import { TicketCreatedListener } from './events/listeners/ticket-created-listene
 import { TicketUpdatedListener } from './events/listeners/ticket-updated-listeners';
 import { ExpirationCompleteListener } from './events/listeners/expiration-complete-listener';
 import { paymentCreatedListener } from './events/listeners/payment-created-listener';
+const port = 3000;
 
 import { app } from './app';
 
@@ -53,13 +54,13 @@ const start = async () => {
       useUnifiedTopology: true,
       useCreateIndex: true,
     });
-    console.log('Connected to MongoDb');
+    console.log('mongodb is connected sucessful');
   } catch (err) {
-    console.error(err);
+    console.error(`Their is some err: ${err}`);
   }
 
-  app.listen(3000, () => {
-    console.log('Listening on port 3000!!!!!!!!');
+  app.listen(port, () => {
+    console.log(`Listing on port: ${port}`);
   });
 };
 
